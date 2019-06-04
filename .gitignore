@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+simple-shopping-cart-source/obj/Release/simple-shopping-cart-source.csproj.CoreCompileInputs.cache
+simple-shopping-cart-source/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+.vs/slnx.sqlite
+.vs/simple-shopping-cart-source/v15/Server/sqlite3/storage.ide-shm
+.vs/simple-shopping-cart-source/v15/.suo
+.vs/VSWorkspaceState.json
