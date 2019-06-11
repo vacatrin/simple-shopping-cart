@@ -2,8 +2,9 @@
 
 function createShoppingList() {
     currentList.name = $("#shoppingListName").val();
+    currentList.items = new Array();
 
-    //app service call
+    //web service call
 
     $("#shoppingListTitle").html(currentList.name);
     $("#shoppingListItems").empty();
@@ -12,6 +13,14 @@ function createShoppingList() {
     $("#shoppingListDiv").show();
 }
 
+function addItem() {
+    let newItem = {};
+    newItem.name = $("#newItemName").val();
+
+    currentList.items.push(newItem);
+
+    console.info(currentList);
+}
 
 $(document).ready(function () {
     console.info("ready to go");
