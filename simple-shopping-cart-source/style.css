@@ -24,3 +24,7 @@ li {
         float: right;
         margin: 0px 3px;
     }
+
+.checked {
+    text-decoration: line-through;
+}

@@ -6,6 +6,11 @@ function createShoppingList() {
 
     //web service call
 
+    showShoppingList();
+}
+
+function showShoppingList() {
+
     $("#shoppingListTitle").html(currentList.name);
     $("#shoppingListItems").empty();
 
@@ -16,27 +21,71 @@ function createShoppingList() {
 function addItem() {
     let newItem = {};
     newItem.name = $("#newItemName").val();
+    $("#newItemName").val("").focus();
+
     currentList.items.push(newItem);
     console.info(currentList);
-
     drawItems();
 }
 
 function drawItems() {
     let $list = $("#shoppingListItems").empty();
 
-    for (var i = 0; i < currentList.items.length; i++) {
-        var $li = $("<li>").html(currentList.items[i].name)
-            .attr("id", "item_" + i);
-        var $deleteBtn = $("<button>Del</button>").appendTo($li);
-        var $checkBtn = $("<button>Chk</button>").appendTo($li);
+    for (let i = 0; i < currentList.items.length; i++) {
+
+        let $li = $("<li>").html(currentList.items[i].name)
+            .attr("id", `item_${i}`);
+
+        let $deleteBtn =
+            $(`<button onclick='deleteItem(${i})'>Del</button>`)
+                .appendTo($li);
+
+        let $checkBtn =
+            $("<button onclick='checkItem(" + i + ")'>Chk</button>")
+                .appendTo($li);
 
         $li.appendTo($list);
     }
 }
 
+function deleteItem(index) {
+    currentList.items.splice(index, 1);
+    drawItems();
+}
+
+function checkItem(index) {
+    if ($(`#item_${index}`).hasClass("checked")) {
+        $(`#item_${index}`).removeClass("checked");
+    } else {
+        $("#item_" + index).addClass("checked");
+    }
+}
+
+function getShoppingListById(id) {
+    console.info(id);
+
+    currentList.name = "Mock List";
+    currentList.items = [
+        { "name": "Milk" },
+        { "name": "Corn" },
+        { "name": "Dill" }
+    ];
+
+    showShoppingList();
+    drawItems();
+}
+
 $(document).ready(function () {
     console.info("ready to go");
+
+    // change following code as per course 11 comment section advice
+    var pageUrl = window.location.href;
+    var idIndex = pageUrl.indexOf("?id=");
+
+    if (idIndex != -1) {
+        getShoppingListById(pageUrl.substring(idIndex + 4));
+    }
+
 });
 
 
