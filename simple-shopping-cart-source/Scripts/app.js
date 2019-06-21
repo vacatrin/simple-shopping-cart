@@ -16,6 +16,13 @@ function showShoppingList() {
 
     $("#createListDiv").hide();
     $("#shoppingListDiv").show();
+
+    $("#newItemName").focus();
+    $("#newItemName").keyup(function(event) {
+        if (event.keyCode === 13) {
+            addItem();
+        }
+    });
 }
 
 function addItem() {
@@ -77,16 +84,18 @@ function getShoppingListById(id) {
 
 $(document).ready(function () {
     console.info("ready to go");
+    $("#shoppingListName").focus();
+    $("#shoppingListName").keyup(function(event) {
+        if (event.keyCode === 13) {
+            createShoppingList();
+        }
+    });
 
-    // change following code as per course 11 comment section advice
+    // change following code as per course 13 Q&A section advice
     var pageUrl = window.location.href;
     var idIndex = pageUrl.indexOf("?id=");
 
-    if (idIndex != -1) {
+    if (idIndex !== -1) {
         getShoppingListById(pageUrl.substring(idIndex + 4));
     }
-
 });
-
-
-
