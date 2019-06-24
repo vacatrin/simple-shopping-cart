@@ -72,7 +72,7 @@ function getShoppingListById(id) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "api/ShoppingList/" + id,
+        url: `api/ShoppingList/${id}`,
         success: function(result) {
             if (result !== null) {
                 currentList = result;
@@ -93,8 +93,8 @@ $(document).ready(function () {
     });
 
     // change following code as per course 13 Q&A section advice
-    var pageUrl = window.location.href;
-    var idIndex = pageUrl.indexOf("?id=");
+    const pageUrl = window.location.href;
+    const idIndex = pageUrl.indexOf("?id=");
 
     if (idIndex !== -1) {
         getShoppingListById(pageUrl.substring(idIndex + 4));
