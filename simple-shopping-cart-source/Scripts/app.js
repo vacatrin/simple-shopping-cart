@@ -69,17 +69,18 @@ function checkItem(index) {
 }
 
 function getShoppingListById(id) {
-    console.info(id);
-
-    currentList.name = "Mock List";
-    currentList.items = [
-        { "name": "Milk" },
-        { "name": "Corn" },
-        { "name": "Dill" }
-    ];
-
-    showShoppingList();
-    drawItems();
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "api/ShoppingList/" + id,
+        success: function(result) {
+            if (result !== null) {
+                currentList = result;
+                showShoppingList();
+                drawItems();
+            }
+        }
+    });
 }
 
 $(document).ready(function () {

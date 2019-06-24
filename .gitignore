@@ -56,3 +56,4 @@ simple-shopping-cart-source/obj/Debug/simple-shopping-cart-source.csproj.FileLis
 simple-shopping-cart-source/obj/Debug/simple-shopping-cart-source.csproj.CopyComplete
 simple-shopping-cart-source/bin/roslyn/vbc.rsp
 simple-shopping-cart-source/bin/roslyn/vbc.exe.config
+*.suo

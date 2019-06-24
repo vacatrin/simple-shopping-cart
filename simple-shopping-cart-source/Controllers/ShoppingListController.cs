@@ -11,7 +11,7 @@ namespace simple_shopping_cart_source.Controllers
     public class ShoppingListController : ApiController
     {
 
-        // create a mock shopping list, before implementing the database
+        #region Region creating a mock shopping list, before implementing the database
         private List<ShoppingList> shoppingList = new List<ShoppingList>
         {
             new ShoppingList()
@@ -25,6 +25,8 @@ namespace simple_shopping_cart_source.Controllers
                 Name = "Tools"
             }
         };
+
+        #endregion
 
         // GET: api/ShoppingList/5
         public IHttpActionResult Get(int id)
@@ -42,6 +44,8 @@ namespace simple_shopping_cart_source.Controllers
         // POST: api/ShoppingList
         public void Post([FromBody]string value)
         {
+
+
         }
     }
 }
