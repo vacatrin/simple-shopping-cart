@@ -57,3 +57,4 @@ simple-shopping-cart-source/obj/Debug/simple-shopping-cart-source.csproj.CopyCom
 simple-shopping-cart-source/bin/roslyn/vbc.rsp
 simple-shopping-cart-source/bin/roslyn/vbc.exe.config
 *.suo
+.vs/simple-shopping-cart-source/v16/Server/sqlite3/db.lock
