@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Newtonsoft.Json;
 using simple_shopping_cart_source.Models;
 
 namespace simple_shopping_cart_source.Controllers
@@ -9,26 +11,38 @@ namespace simple_shopping_cart_source.Controllers
     {
 
         #region Region creating a mock shopping list, before implementing the database
-        private List<ShoppingList> shoppingList = new List<ShoppingList>
+        private List<ShoppingList> shoppingLists = new List<ShoppingList>
         {
             new ShoppingList()
             {
                 Id = 0,
-                Name = "Groceries"
+                Name = "Groceries",
+                Items =
+                {
+                    new Item { Name = "Milk" },
+                    new Item { Name = "Tomatoes" },
+                    new Item { Name = "Bread" }
+                }
             },
             new ShoppingList()
             {
                 Id = 1,
-                Name = "Tools"
+                Name = "Tools",
+                Items =
+                {
+                    new Item { Name = "Wrench" },
+                    new Item { Name = "Bolts" },
+                    new Item { Name = "Nuts" }
+                }
             }
         };
 
         #endregion
 
-        // GET: api/ShoppingList/5
+        // GET: api/ShoppingList?id=5
         public IHttpActionResult Get(int id)
         {
-            ShoppingList result = shoppingList.FirstOrDefault(s => s.Id == id);
+            ShoppingList result = shoppingLists.FirstOrDefault(s => s.Id == id);
 
             if (result == null)
             {
@@ -39,10 +53,12 @@ namespace simple_shopping_cart_source.Controllers
         }
 
         // POST: api/ShoppingList
-        public void Post([FromBody]string value)
+        public IEnumerable Post([FromBody]ShoppingList newList)
         {
+            newList.Id = shoppingLists.Count;
+            shoppingLists.Add(newList);
 
-
+            return shoppingLists;
         }
     }
 }

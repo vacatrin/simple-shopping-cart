@@ -4,9 +4,16 @@ function createShoppingList() {
     currentList.name = $("#shoppingListName").val();
     currentList.items = new Array();
 
-    //web service call
-
-    showShoppingList();
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "api/ShoppingList",
+        data: currentList,
+        success: function(result) {
+            //currentList.push(result);
+            showShoppingList();
+        }
+    });
 }
 
 function showShoppingList() {
@@ -79,6 +86,9 @@ function getShoppingListById(id) {
                 showShoppingList();
                 drawItems();
             }
+        },
+        error: function() {
+            console.error("Oops, something wrong!");
         }
     });
 }
