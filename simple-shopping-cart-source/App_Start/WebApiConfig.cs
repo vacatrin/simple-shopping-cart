@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace simple_shopping_cart_source
@@ -17,7 +14,6 @@ namespace simple_shopping_cart_source
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             // Web API routes
-
 
             //config.Formatters.JsonFormatter.
 
