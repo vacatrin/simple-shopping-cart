@@ -1,10 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
+
+<head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon"
+          type="image/png"
+          href="../Images/favicon-16x16.png">
     <meta charset="utf-8" />
     <title>Shopping Cart</title>
+    <link href="./style.css" rel="stylesheet" />
+    <script src="./Scripts/jquery-3.4.1.min.js"></script>
+    <script src="./Scripts/app.js"></script>
 </head>
-<body>
 
+<body>
+    <div id="createListDiv">
+        <h1>
+            Simple Shopping List
+        </h1>
+        <input type="text" id="shoppingListName" placeholder="New List Name"/>
+        <button onclick="createShoppingList()">Create</button>
+    </div>
+
+    <div id="shoppingListDiv" style="display: none;">
+        <h1 id="shoppingListTitle">New List</h1>
+        <input type="text" id="newItemName" placeholder="New Item">
+        <button onclick="addItem()">Add</button>
+        <ul id="shoppingListItems">
+
+            <li>Salad <button>Del</button><button>Check</button></li>
+            <li>Milk <button>Del</button><button>Check</button></li>
+            <li>Tomatoes <button>Del</button><button>Check</button></li>
+
+        </ul>
+    </div>
 </body>
+
 </html>
