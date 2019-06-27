@@ -10,7 +10,6 @@ function createShoppingList() {
         url: "api/ShoppingList",
         data: currentList,
         success: function(result) {
-            //currentList.push(result);
             showShoppingList();
         }
     });
@@ -33,13 +32,21 @@ function showShoppingList() {
 }
 
 function addItem() {
-    let newItem = {};
+    const newItem = {};
     newItem.name = $("#newItemName").val();
-    $("#newItemName").val("").focus();
+    newItem.shoppingListId = currentList.id;
 
-    currentList.items.push(newItem);
-    console.info(currentList);
-    drawItems();
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "api/Item/",
+        data: newItem,
+        success: function(result) {
+            currentList = result;
+            drawItems();
+            $("#newItemName").val("").focus();
+        }
+    });
 }
 
 function drawItems() {

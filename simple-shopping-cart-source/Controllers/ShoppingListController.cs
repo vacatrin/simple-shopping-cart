@@ -11,7 +11,7 @@ namespace simple_shopping_cart_source.Controllers
     {
 
         #region Region creating a mock shopping list, before implementing the database
-        private List<ShoppingList> shoppingLists = new List<ShoppingList>
+        public static List<ShoppingList> shoppingLists = new List<ShoppingList>
         {
             new ShoppingList()
             {
