@@ -2,37 +2,31 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 using simple_shopping_cart_source.Models;
 
 namespace simple_shopping_cart_source.Controllers
 {
     public class ItemController : ApiController
     {
-
-        #region Region where Items are mocked
-
-        private List<Item> itemsList = new List<Item>()
+        // GET: api/Item?shoppingListId=0&itemId=1
+        public IHttpActionResult Get(int shoppingListId, int itemId)
         {
-            new Item
+            var shoppingList = ShoppingListController.shoppingLists.FirstOrDefault(s => s.Id == shoppingListId);
+
+            if (shoppingList == null)
             {
-                Checked = false, Id = 0, Name = "Milk", ShoppingListId = 0
-            },
-            new Item
-            {
-                Checked = false, Id = 1, Name = "Tomatoes", ShoppingListId = 0
-            },
-            new Item
-            {
-                Checked = true, Id = 2, Name = "Bread", ShoppingListId = 0
+                return NotFound();
             }
-        };
 
-        #endregion
+            var result = shoppingList.Items.FirstOrDefault(i => i.Id == itemId);
 
-        // GET: api/Item/5
-        public string Get(int id)
-        {
-            return null;
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         // POST: api/Item
