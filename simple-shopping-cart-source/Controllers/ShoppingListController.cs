@@ -19,9 +19,9 @@ namespace simple_shopping_cart_source.Controllers
                 Name = "Groceries",
                 Items =
                 {
-                    new Item { Name = "Milk" },
-                    new Item { Name = "Tomatoes" },
-                    new Item { Name = "Bread" }
+                    new Item { Id = 0, Checked = false, Name = "Milk", ShoppingListId = 0},
+                    new Item { Id = 1, Checked = false, Name = "Tomatoes", ShoppingListId = 0 },
+                    new Item { Id = 2, Checked = false, Name = "Bread", ShoppingListId = 0 }
                 }
             },
             new ShoppingList()

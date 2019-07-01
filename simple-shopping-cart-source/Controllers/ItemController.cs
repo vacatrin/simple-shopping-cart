@@ -1,58 +1,67 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 using simple_shopping_cart_source.Models;
 
 namespace simple_shopping_cart_source.Controllers
 {
     public class ItemController : ApiController
     {
-
-        #region Region where Items are mocked
-
-        private List<Item> itemsList = new List<Item>()
+        // GET: api/Item?shoppingListId=0&itemId=1
+        public IHttpActionResult Get(int shoppingListId, int itemId)
         {
-            new Item
+            var shoppingList = ShoppingListController.shoppingLists.FirstOrDefault(s => s.Id == shoppingListId);
+
+            if (shoppingList == null)
             {
-                Checked = false, Id = 0, Name = "Milk", ShoppingListId = 0
-            },
-            new Item
-            {
-                Checked = false, Id = 1, Name = "Tomatoes", ShoppingListId = 0
-            },
-            new Item
-            {
-                Checked = true, Id = 2, Name = "Bread", ShoppingListId = 0
+                return NotFound();
             }
-        };
 
-        #endregion
+            var result = shoppingList.Items.FirstOrDefault(i => i.Id == itemId);
 
-        // GET: api/Item/5
-        public string Get(int id)
-        {
-            return null;
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
         // POST: api/Item
         public IHttpActionResult Post([FromBody]Item item)
         {
-            var shoppingLists = ShoppingListController.shoppingLists
+            var shoppingList = ShoppingListController.shoppingLists
                 .FirstOrDefault(s => s.Id == item.ShoppingListId);
 
-            if (shoppingLists == null)
+            if (shoppingList == null)
             {
                 return NotFound();
             }
 
-            shoppingLists.Items.Add(item);
+            item.Id = shoppingList.Items.Max(i => i.Id) + 1;
+            shoppingList.Items.Add(item);
 
-            return Ok(shoppingLists);
+            return Ok(shoppingList);
         }
 
         // PUT: api/Item/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Item item)
         {
+            var shoppingList = ShoppingListController.shoppingLists
+                .FirstOrDefault(s => s.Id == item.ShoppingListId);
+
+            if (shoppingList == null) return NotFound();
+
+            var changedItem = shoppingList.Items.FirstOrDefault(i => i.Id == id);
+
+            if (changedItem == null) return NotFound();
+
+            changedItem.Checked = item.Checked;
+            //return Ok(changedItem);
+
+            return Ok(shoppingList);
         }
 
         // DELETE: api/Item/5
