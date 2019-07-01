@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
 using simple_shopping_cart_source.Models;
@@ -37,22 +38,36 @@ namespace simple_shopping_cart_source.Controllers
         // POST: api/Item
         public IHttpActionResult Post([FromBody]Item item)
         {
-            var shoppingLists = ShoppingListController.shoppingLists
+            var shoppingList = ShoppingListController.shoppingLists
                 .FirstOrDefault(s => s.Id == item.ShoppingListId);
 
-            if (shoppingLists == null)
+            if (shoppingList == null)
             {
                 return NotFound();
             }
 
-            shoppingLists.Items.Add(item);
+            item.Id = shoppingList.Items.Max(i => i.Id) + 1;
+            shoppingList.Items.Add(item);
 
-            return Ok(shoppingLists);
+            return Ok(shoppingList);
         }
 
         // PUT: api/Item/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Item item)
         {
+            var shoppingList = ShoppingListController.shoppingLists
+                .FirstOrDefault(s => s.Id == item.ShoppingListId);
+
+            if (shoppingList == null) return NotFound();
+
+            var changedItem = shoppingList.Items.FirstOrDefault(i => i.Id == id);
+
+            if (changedItem == null) return NotFound();
+
+            changedItem.Checked = item.Checked;
+            //return Ok(changedItem);
+
+            return Ok(shoppingList);
         }
 
         // DELETE: api/Item/5

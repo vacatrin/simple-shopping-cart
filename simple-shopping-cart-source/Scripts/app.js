@@ -54,16 +54,19 @@ function drawItems() {
 
     for (let i = 0; i < currentList.items.length; i++) {
 
+        //Draw each item from the list, with a Check and Delete button next to them
         let $li = $("<li>").html(currentList.items[i].name)
             .attr("id", `item_${i}`);
-
         let $deleteBtn =
             $(`<button onclick='deleteItem(${i})'>Del</button>`)
                 .appendTo($li);
-
         let $checkBtn =
             $("<button onclick='checkItem(" + i + ")'>Chk</button>")
                 .appendTo($li);
+
+        if (currentList.items[i].checked) {
+            $li.addClass("checked");
+        }
 
         $li.appendTo($list);
     }
@@ -75,11 +78,21 @@ function deleteItem(index) {
 }
 
 function checkItem(index) {
-    if ($(`#item_${index}`).hasClass("checked")) {
-        $(`#item_${index}`).removeClass("checked");
-    } else {
-        $("#item_" + index).addClass("checked");
-    }
+    let item = currentList.items[index];
+    item.checked = !item.checked;
+
+    $.ajax({
+        type: "PUT",
+        dataType: "json",
+        url: "api/Item/" + index,
+        data: item,
+        success: function(result) {
+            currentList = result;
+            drawItems();
+
+        }
+    });
+
 }
 
 function getShoppingListById(id) {
