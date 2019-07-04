@@ -20,6 +20,10 @@ li {
     margin-bottom: 5px;
 }
 
+p {
+    color: red;
+}
+
     li button {
         float: right;
         margin: 0px 3px;
@@ -27,4 +31,8 @@ li {
 
 .checked {
     text-decoration: line-through;
+}
+
+.inputError {
+    border-color: red;
 }

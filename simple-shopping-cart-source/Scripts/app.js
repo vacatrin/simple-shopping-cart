@@ -9,7 +9,7 @@ function createShoppingList() {
         dataType: "json",
         url: "api/ShoppingList",
         data: currentList,
-        success: function(result) {
+        success: function (result) {
             showShoppingList();
         }
     });
@@ -24,27 +24,9 @@ function showShoppingList() {
     $("#shoppingListDiv").show();
 
     $("#newItemName").focus();
-    $("#newItemName").keyup(function(event) {
+    $("#newItemName").keyup(function (event) {
         if (event.keyCode === 13) {
             addItem();
-        }
-    });
-}
-
-function addItem() {
-    const newItem = {};
-    newItem.name = $("#newItemName").val();
-    newItem.shoppingListId = currentList.id;
-
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "api/Item/",
-        data: newItem,
-        success: function(result) {
-            currentList = result;
-            drawItems();
-            $("#newItemName").val("").focus();
         }
     });
 }
@@ -55,16 +37,17 @@ function drawItems() {
     for (let i = 0; i < currentList.items.length; i++) {
 
         //Draw each item from the list, with a Check and Delete button next to them
-        let $li = $("<li>").html(currentList.items[i].name)
+        var currentItem = currentList.items[i];
+        let $li = $("<li>").html(currentItem.name)
             .attr("id", `item_${i}`);
         let $deleteBtn =
             $(`<button onclick='deleteItem(${i})'>Del</button>`)
                 .appendTo($li);
         let $checkBtn =
-            $("<button onclick='checkItem(" + i + ")'>Chk</button>")
+            $("<button onclick='checkItem(" + currentItem.id + ")'>Chk</button>")
                 .appendTo($li);
 
-        if (currentList.items[i].checked) {
+        if (currentItem.checked) {
             $li.addClass("checked");
         }
 
@@ -77,22 +60,22 @@ function deleteItem(index) {
     drawItems();
 }
 
-function checkItem(index) {
-    let item = currentList.items[index];
-    item.checked = !item.checked;
+function checkItem(itemId) {
+
+    let changedItem = currentList.items.find(i => i.id === itemId);
+
+    changedItem.checked = !changedItem.checked;
 
     $.ajax({
         type: "PUT",
         dataType: "json",
-        url: "api/Item/" + index,
-        data: item,
-        success: function(result) {
+        url: "api/Item/" + itemId,
+        data: changedItem,
+        success: function (result) {
             currentList = result;
             drawItems();
-
         }
     });
-
 }
 
 function getShoppingListById(id) {
@@ -100,14 +83,14 @@ function getShoppingListById(id) {
         type: "GET",
         dataType: "json",
         url: `api/ShoppingList/${id}`,
-        success: function(result) {
+        success: function (result) {
             if (result !== null) {
                 currentList = result;
                 showShoppingList();
                 drawItems();
             }
         },
-        error: function() {
+        error: function () {
             console.error("Oops, something wrong!");
         }
     });
@@ -116,7 +99,7 @@ function getShoppingListById(id) {
 $(document).ready(function () {
     console.info("ready to go");
     $("#shoppingListName").focus();
-    $("#shoppingListName").keyup(function(event) {
+    $("#shoppingListName").keyup(function (event) {
         if (event.keyCode === 13) {
             createShoppingList();
         }
