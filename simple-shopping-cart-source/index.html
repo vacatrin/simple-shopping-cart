@@ -10,6 +10,7 @@
     <link href="./style.css" rel="stylesheet" />
     <script src="./Scripts/jquery-3.4.1.min.js"></script>
     <script src="./Scripts/app.js"></script>
+    <script src="./Components/AddItem/addItem.js"></script>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <h1>
             Simple Shopping List
         </h1>
-        <input type="text" id="shoppingListName" placeholder="New List Name"/>
+        <input type="text" id="shoppingListName" placeholder="New List Name" />
         <button onclick="createShoppingList()">Create</button>
     </div>
 
@@ -25,13 +26,10 @@
         <h1 id="shoppingListTitle">New List</h1>
         <input type="text" id="newItemName" placeholder="New Item">
         <button onclick="addItem()">Add</button>
-        <ul id="shoppingListItems">
 
-            <li>Salad <button>Del</button><button>Check</button></li>
-            <li>Milk <button>Del</button><button>Check</button></li>
-            <li>Tomatoes <button>Del</button><button>Check</button></li>
+        <!--<p id="itemInputError">Item name must not be empty</p>-->
 
-        </ul>
+        <ul id="shoppingListItems"></ul>
     </div>
 </body>
 

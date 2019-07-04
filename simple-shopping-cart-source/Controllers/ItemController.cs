@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 using System.Web.UI.WebControls;
 using simple_shopping_cart_source.Models;
@@ -59,7 +57,6 @@ namespace simple_shopping_cart_source.Controllers
             if (changedItem == null) return NotFound();
 
             changedItem.Checked = item.Checked;
-            //return Ok(changedItem);
 
             return Ok(shoppingList);
         }
