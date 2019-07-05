@@ -20,7 +20,7 @@
                 $("#newItemName").val("").focus();
             }
         });
-        $("#itemInputError").hide();
+        //$("#itemInputError").hide();
     } else {
         $("#newItemName").addClass("inputError").val().focus();
     }
