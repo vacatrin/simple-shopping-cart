@@ -7,10 +7,12 @@ function createShoppingList() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "api/ShoppingList",
+        url: "api/ShoppingListsEF",
         data: currentList,
         success: function (result) {
+            currentList = result;
             showShoppingList();
+            history.pushState({ id: result.id }, result.name, `?id=${result.id}`);
         }
     });
 }
@@ -24,9 +26,27 @@ function showShoppingList() {
     $("#shoppingListDiv").show();
 
     $("#newItemName").focus();
+    $("#newItemName").val("");
+    $("#newItemName").unbind("keyup");
     $("#newItemName").keyup(function (event) {
         if (event.keyCode === 13) {
             addItem();
+        }
+    });
+}
+
+function hideShoppingList() {
+    $("#createListDiv").show();
+    $("#shoppingListDiv").hide();
+
+    $("#shoppingListName").val("");
+    $("#shoppingListName").focus();
+    //need to unbind keyup
+    $("#shoppingListName").unbind("keyup");
+
+    $("#shoppingListName").keyup(function(event) {
+        if (event.keyCode === 13) {
+            createShoppingList();
         }
     });
 }
@@ -92,7 +112,7 @@ function getShoppingListById(id) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: `api/ShoppingList/${id}`,
+        url: `api/ShoppingListsEF/${id}`,
         success: function (result) {
             if (result !== null) {
                 currentList = result;
@@ -108,6 +128,9 @@ function getShoppingListById(id) {
 
 $(document).ready(function () {
     console.info("ready to go");
+
+    hideShoppingList();
+
     $("#shoppingListName").focus();
     $("#shoppingListName").keyup(function (event) {
         if (event.keyCode === 13) {
@@ -122,4 +145,11 @@ $(document).ready(function () {
     if (idIndex !== -1) {
         getShoppingListById(pageUrl.substring(idIndex + 4));
     }
+
+    window.onpopstate = function(event) {
+        if (event.state === null) {
+            hideShoppingList();
+        }
+        getShoppingListById(event.state.id);
+    };
 });
