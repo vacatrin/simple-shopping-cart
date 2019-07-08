@@ -61,10 +61,10 @@ function drawItems() {
         let $li = $("<li>").html(currentItem.name)
             .attr("id", `item_${i}`);
         let $deleteBtn =
-            $(`<button onclick='deleteItem(${currentList.id}, ${currentItem.id})'>Del</button>`)
+            $(`<button onclick='deleteItem(${currentItem.id})'>Del</button>`)
                 .appendTo($li);
         let $checkBtn =
-            $("<button onclick='checkItem(" + currentItem.id + ")'>Chk</button>")
+            $(`<button onclick='checkItem(${currentItem.id})'>Chk</button>`)
                 .appendTo($li);
 
         if (currentItem.checked) {
@@ -75,12 +75,12 @@ function drawItems() {
     }
 }
 
-function deleteItem(id, index) {
+function deleteItem(index) {
 
     $.ajax({
         type: "DELETE",
         dataType: "json",
-        url: `api/Item?listId=${id}&itemId=${index}`,
+        url: `api/ItemsEF/${index}`,
         success: function (result) {
             currentList = result;
             drawItems();
@@ -99,10 +99,11 @@ function checkItem(itemId) {
     $.ajax({
         type: "PUT",
         dataType: "json",
-        url: "api/Item/" + itemId,
+        url: "api/ItemsEF/" + itemId,
         data: changedItem,
         success: function (result) {
-            currentList = result;
+            //currentList.items.map(item => item.id === result.id); ????????????
+            changedItem = result;
             drawItems();
         }
     });

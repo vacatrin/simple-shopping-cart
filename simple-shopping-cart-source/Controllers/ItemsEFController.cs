@@ -36,7 +36,7 @@ namespace simple_shopping_cart_source.Controllers
         }
 
         // PUT: api/ItemsEF/5
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(Item))]
         public IHttpActionResult PutItem(int id, Item item)
         {
             if (!ModelState.IsValid)
@@ -67,11 +67,11 @@ namespace simple_shopping_cart_source.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(item);
         }
 
         // POST: api/ItemsEF
-        [ResponseType(typeof(Item))]
+        [ResponseType(typeof(ShoppingList))]
         public IHttpActionResult PostItem(Item item)
         {
             if (!ModelState.IsValid)
@@ -79,14 +79,23 @@ namespace simple_shopping_cart_source.Controllers
                 return BadRequest(ModelState);
             }
 
+            var shoppingList = db.ShoppingLists
+                .Include(s => s.Items)
+                .FirstOrDefault(s => s.Id == item.ShoppingListId);
+
+            if (shoppingList == null)
+            {
+                return NotFound();
+            }
+
             db.Items.Add(item);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = item.Id }, item);
+            return Ok(shoppingList);
         }
 
         // DELETE: api/ItemsEF/5
-        [ResponseType(typeof(Item))]
+        [ResponseType(typeof(ShoppingList))]
         public IHttpActionResult DeleteItem(int id)
         {
             Item item = db.Items.Find(id);
@@ -98,7 +107,9 @@ namespace simple_shopping_cart_source.Controllers
             db.Items.Remove(item);
             db.SaveChanges();
 
-            return Ok(item);
+            var shoppingList = db.ShoppingLists.Include(s => s.Items).FirstOrDefault(s => s.Id == item.ShoppingListId);
+
+            return Ok(shoppingList);
         }
 
         protected override void Dispose(bool disposing)
