@@ -62,8 +62,25 @@ namespace simple_shopping_cart_source.Controllers
         }
 
         // DELETE: api/Item/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int listId, int itemId)
         {
+            var shoppingList = ShoppingListController.shoppingLists.FirstOrDefault(i => i.Id == listId);
+
+            if (shoppingList == null)
+            {
+                return NotFound();
+            }
+
+            var itemToDelete = shoppingList.Items.FirstOrDefault(i => i.Id == itemId);
+
+            if (itemToDelete == null)
+            {
+                return NotFound();
+            }
+
+            shoppingList.Items.Remove(itemToDelete);
+
+            return Ok(shoppingList);
         }
     }
 }

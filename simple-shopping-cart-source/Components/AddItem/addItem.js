@@ -12,7 +12,7 @@
         $.ajax({
             type: "POST",
             dataType: "json",
-            url: "api/Item/",
+            url: "api/ItemsEF/",
             data: newItem,
             success: function (result) {
                 currentList = result;
@@ -20,7 +20,7 @@
                 $("#newItemName").val("").focus();
             }
         });
-        $("#itemInputError").hide();
+        //$("#itemInputError").hide();
     } else {
         $("#newItemName").addClass("inputError").val().focus();
     }
